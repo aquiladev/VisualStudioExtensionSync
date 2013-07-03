@@ -4,10 +4,8 @@ using System;
 
 namespace ExtensionSync
 {
-    static class PkgCmdIDList
-    {
-        public const uint cmdidSyncExtensions =        0x100;
-
-
-    };
+	static class PkgCmdIDList
+	{
+		public const uint cmdidSyncExtensions = 0x100;
+	};
 }

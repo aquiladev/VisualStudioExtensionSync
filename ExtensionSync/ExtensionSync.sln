@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionSync", "ExtensionSync\ExtensionSync.csproj", "{FF1CB364-9925-4ECA-839A-60B9B1DF2984}"
 EndProject
 Global

@@ -5,57 +5,59 @@ using System.Xml.Serialization;
 
 namespace ExtensionSync
 {
-    public class SettingsRepository
-    {
-        public SettingsRepository(ExtensionManagerFacade visualStudioExtensionManager, string path)
-        {
-            extensionManager = visualStudioExtensionManager;
-            settingsFilePath = path;
-        }
+	public class SettingsRepository
+	{
+		public SettingsRepository(ExtensionManagerFacade visualStudioExtensionManager, string path)
+		{
+			extensionManager = visualStudioExtensionManager;
+			settingsFilePath = path;
+		}
 
-        public event Action<string> Log;
+		public event Action<string> Log;
 
-        public void PersistExtensionSettings()
-        {
-            var installedExtensionsInformation = extensionManager.GetInstalledExtensionsInformation();
+		public void PersistExtensionSettings()
+		{
+			var installedExtensionsInformation = extensionManager.GetInstalledExtensionsInformation();
 
-            using (var fileStream = new FileStream(settingsFilePath, FileMode.Create,FileAccess.ReadWrite,FileShare.Read))
-            {
-                var serializer = new XmlSerializer(typeof(List<ExtensionInformation>));
-                serializer.Serialize(fileStream, installedExtensionsInformation);
-            }
-        }
+			using (var fileStream = new FileStream(settingsFilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
+			{
+				var serializer = new XmlSerializer(typeof(List<ExtensionInformation>));
+				serializer.Serialize(fileStream, installedExtensionsInformation);
+			}
+		}
 
-        public List<ExtensionInformation> GetPersistedExtensionSettings()
-        {
-            var settings = new List<ExtensionInformation>();
-            try
-            {
-                if (File.Exists(settingsFilePath))
-                {
-                    using (var fileStream = new FileStream(settingsFilePath, FileMode.Open,FileAccess.Read,FileShare.ReadWrite))
-                    {
-                        var serializer = new XmlSerializer(typeof(List<ExtensionInformation>));
-                        settings = (List<ExtensionInformation>)serializer.Deserialize(fileStream);
-                        return settings;
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                LogMessage(string.Format("Error while retrieving persisted Extension Settings: {0}",exception.Message));
-            }
+		public List<ExtensionInformation> GetPersistedExtensionSettings()
+		{
+			var settings = new List<ExtensionInformation>();
+			try
+			{
+				if (File.Exists(settingsFilePath))
+				{
+					using (var fileStream = new FileStream(settingsFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+					{
+						var serializer = new XmlSerializer(typeof(List<ExtensionInformation>));
+						settings = (List<ExtensionInformation>)serializer.Deserialize(fileStream);
+						return settings;
+					}
+				}
+			}
+			catch (Exception exception)
+			{
+				LogMessage(string.Format("Error while retrieving persisted Extension Settings: {0}", exception.Message));
+			}
 
-            return settings;
-        }
+			return settings;
+		}
 
-        void LogMessage(string message)
-        {
-            if (Log != null)
-                Log.Invoke(message);
-        }
+		void LogMessage(string message)
+		{
+			if (Log != null)
+			{
+				Log.Invoke(message);
+			}
+		}
 
-        ExtensionManagerFacade extensionManager;
-        readonly string settingsFilePath;
-    }
+		ExtensionManagerFacade extensionManager;
+		readonly string settingsFilePath;
+	}
 }

@@ -3,60 +3,74 @@ using System.Windows.Forms;
 
 namespace ExtensionSync
 {
-    public partial class OptionsUserControl : UserControl
-    {
-        public OptionsUserControl()
-        {
-            InitializeComponent();
-        }
+	public partial class OptionsUserControl : UserControl
+	{
+		public OptionsUserControl()
+		{
+			InitializeComponent();
+		}
 
-        public OptionsPage OptionsPage { get; set; }
+		public OptionsPage OptionsPage { get; set; }
 
-        public void Initialize()
-        {
-            UpdatePathTextBoxes();
-            cbxEnableLogging.Checked = OptionsPage.LoggingEnabled;
-            cbxAutoUpdateExtensions.Checked = OptionsPage.AutoUpdateExtensions;
-            btnBrowseLogFilePath.Enabled = cbxEnableLogging.Checked;
-        }
+		public void Initialize()
+		{
+			FillTypes();
+			UpdatePathTextBoxes();
+			cbxEnableLogging.Checked = OptionsPage.LoggingEnabled;
+			cbxAutoUpdateExtensions.Checked = OptionsPage.AutoUpdateExtensions;
+			btnBrowseLogFilePath.Enabled = cbxEnableLogging.Checked;
+		}
 
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            UpdatePathTextBoxes();
-        }
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
+			UpdatePathTextBoxes();
+		}
 
-        private void UpdatePathTextBoxes()
-        {
-            txtSettingsFilePath.Text = OptionsPage.SettingsDirectoryPath;
-            txtLogPath.Text = OptionsPage.LogDirectoryPath;
-        }
+		private void FillTypes()
+		{
+			cbxRepositoryTypes.DisplayMember = "Text";
+			cbxRepositoryTypes.ValueMember = "Value";
+			cbxRepositoryTypes.Items.Add(new { Text = "a", Value = "1210" });
+		}
 
-        private void BtnBrowseSettingsPathClick(object sender, EventArgs e)
-        {
-            if (folderBrowserDialog.ShowDialog() != DialogResult.OK) return;
+		private void UpdatePathTextBoxes()
+		{
+			txtSettingsFilePath.Text = OptionsPage.SettingsDirectoryPath;
+			txtLogPath.Text = OptionsPage.LogDirectoryPath;
+		}
 
-            txtSettingsFilePath.Text = folderBrowserDialog.SelectedPath;
-            OptionsPage.SettingsDirectoryPath = txtSettingsFilePath.Text;
-        }
+		private void BtnBrowseSettingsPathClick(object sender, EventArgs e)
+		{
+			if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
+			{
+				return;
+			}
 
-        private void BtnBrowseLogFilePathClick(object sender, EventArgs e)
-        {
-            if (folderBrowserDialog.ShowDialog() != DialogResult.OK) return;
+			txtSettingsFilePath.Text = folderBrowserDialog.SelectedPath;
+			OptionsPage.SettingsDirectoryPath = txtSettingsFilePath.Text;
+		}
 
-            txtLogPath.Text = folderBrowserDialog.SelectedPath;
-            OptionsPage.LogDirectoryPath = txtLogPath.Text;
-        }
+		private void BtnBrowseLogFilePathClick(object sender, EventArgs e)
+		{
+			if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
+			{
+				return;
+			}
 
-        private void CbxEnableLoggingCheckedChanged(object sender, EventArgs e)
-        {
-            OptionsPage.LoggingEnabled = cbxEnableLogging.Checked;
-            btnBrowseLogFilePath.Enabled = cbxEnableLogging.Checked;
-        }
+			txtLogPath.Text = folderBrowserDialog.SelectedPath;
+			OptionsPage.LogDirectoryPath = txtLogPath.Text;
+		}
 
-        private void CbxAutoUpdateExtensionsCheckedChanged(object sender, EventArgs e)
-        {
-            OptionsPage.AutoUpdateExtensions = cbxAutoUpdateExtensions.Checked;
-        }
-    }
+		private void CbxEnableLoggingCheckedChanged(object sender, EventArgs e)
+		{
+			OptionsPage.LoggingEnabled = cbxEnableLogging.Checked;
+			btnBrowseLogFilePath.Enabled = cbxEnableLogging.Checked;
+		}
+
+		private void CbxAutoUpdateExtensionsCheckedChanged(object sender, EventArgs e)
+		{
+			OptionsPage.AutoUpdateExtensions = cbxAutoUpdateExtensions.Checked;
+		}
+	}
 }
