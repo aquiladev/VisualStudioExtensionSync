@@ -18,6 +18,7 @@ namespace ExtensionSync
 			UpdatePathTextBoxes();
 			cbxEnableLogging.Checked = OptionsPage.LoggingEnabled;
 			cbxAutoUpdateExtensions.Checked = OptionsPage.AutoUpdateExtensions;
+			cbRepositoryTypes.SelectedValue = OptionsPage.RepositoryType;
 			btnBrowseLogFilePath.Enabled = cbxEnableLogging.Checked;
 		}
 
@@ -29,9 +30,10 @@ namespace ExtensionSync
 
 		private void FillTypes()
 		{
-			cbxRepositoryTypes.DisplayMember = "Text";
-			cbxRepositoryTypes.ValueMember = "Value";
-			cbxRepositoryTypes.Items.Add(new { Text = "a", Value = "1210" });
+			cbRepositoryTypes.DisplayMember = "Text";
+			cbRepositoryTypes.ValueMember = "Value";
+			cbRepositoryTypes.Items.Add(new { Text = "By follder", Value = "follder" });
+			cbRepositoryTypes.Items.Add(new { Text = "Live", Value = "live" });
 		}
 
 		private void UpdatePathTextBoxes()
@@ -71,6 +73,19 @@ namespace ExtensionSync
 		private void CbxAutoUpdateExtensionsCheckedChanged(object sender, EventArgs e)
 		{
 			OptionsPage.AutoUpdateExtensions = cbxAutoUpdateExtensions.Checked;
+		}
+
+		private void CbxRepositoryTypeTextChanged(object sender, EventArgs e)
+		{
+			OptionsPage.RepositoryType = ((dynamic)cbRepositoryTypes.SelectedItem).Value.ToString();
+			if (cbRepositoryTypes.SelectedValue == "live")
+			{
+				pFolder.Visible = false;
+			}
+			else
+			{
+				pFolder.Visible = true;
+			}
 		}
 	}
 }
